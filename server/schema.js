@@ -1,7 +1,7 @@
 const { gql } = require("apollo-server-express");
 
 // mock data
-const positions = [
+let positions = [
   {
     role: "Software Engineer",
     description:
@@ -45,7 +45,7 @@ const positions = [
     company: "Sly & Swift"
   }
 ];
-const resume = {
+let resume = {
   name: "Devonte MacGlashan",
   city: "Los Angeles",
   photo_url:
@@ -53,9 +53,9 @@ const resume = {
   positions: positions,
   github_url: "https://github.com/devontem"
 };
-const mock_db = {
-  resume: resume,
-  positions: positions
+let mock_db = {
+  resume,
+  positions
 };
 
 // type defs
@@ -63,21 +63,22 @@ const typeDefs = gql`
   type Position {
     role: String!
     description: String!
-    year: Int!
+    year: String!
     company: String!
   }
 
   input PositionInput {
     role: String!
     description: String!
-    year: Int!
+    year: String!
     company: String!
   }
 
   type Resume {
     name: String!
     city: String!
-    github_handle: String
+    github_url: String
+    photo_url: String
     positions: [Position]!
   }
 
@@ -87,8 +88,8 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    addPosition(position: PositionInput!): Position
-    deletePosition(idx: Int!): Position
+    AddPosition(position: PositionInput!): Position
+    DeletePosition(idx: Int!): Position
   }
 `;
 
@@ -103,11 +104,12 @@ const resolvers = {
     }
   },
   Mutation: {
-    addPosition: (root, args, { req, res }, info) => {
+    AddPosition: (root, args, { req, res }, info) => {
+      args.position.id = 10;
       mock_db.positions.push(args.position);
       return mock_db.positions[mock_db.positions.length - 1];
     },
-    deletePosition: (root, args, { req, res }, info) => {
+    DeletePosition: (root, args, { req, res }, info) => {
       const position = mock_db.positions[args.idx];
       mock_db.positions.splice(args.idx, 1);
       return position;
