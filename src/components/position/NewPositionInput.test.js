@@ -5,11 +5,11 @@ import wait from "waait";
 
 import NewPositionInput from "./NewPositionInput";
 import { ADD_POSITION, GET_RESUME } from "./../../graphql/statements";
-import mock_db = require("./../../../server/mock-data");
+import mock_db from "./../../../server/mock-data";
 
 it("renders without error", () => {
 	renderer.create(
-		<MockedProvider mocks={mocks} addTypename={false}>
+		<MockedProvider mocks={[]} addTypename={false}>
 			<NewPositionInput />
 		</MockedProvider>
 	);
