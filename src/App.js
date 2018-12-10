@@ -5,7 +5,7 @@ import "./App.css";
 import Resume from "./components/resume/Resume";
 
 const client = new ApolloClient({
-  uri: "http://localhost:4000/graphql"
+  uri: "/graphql"
 });
 
 class App extends Component {
